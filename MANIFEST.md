@@ -4,9 +4,10 @@
 - `__init__.py` - Package initialization with exports
 - `framework.py` - Main ReconciliationFramework orchestrator class
 - `models.py` - Data models (ComparisonResult, ReconciliationReport, etc.)
-- `config.py` - YAML configuration loading and validation
-- `connections.py` - Connection managers (JSON, Starburst)
-- `comparators.py` - Comparison algorithms (RecordCount, Field, Column)
+- `config.py` - YAML configuration loading and validation with enhanced error handling
+- `connections.py` - Connection managers (JSON, Starburst) with improved error messages
+- `comparators.py` - Comparison algorithms (RecordCount, Field, Column) with performance monitoring
+- `constants.py` - Centralized configuration constants and defaults
 
 ### Configuration Files (config/)
 - `starburst_config.json` - Database connection configuration
@@ -22,8 +23,9 @@
 - `test_models.py` - Data model tests (3 tests)
 - `test_config.py` - Configuration loading tests (2 tests)
 - `test_connections.py` - Connection manager tests (2 tests)
-- `test_comparators.py` - Comparison algorithm tests (3 tests)
+- `test_comparators.py` - Comparison algorithm tests (5 tests)
 - `test_reconciliation.py` - End-to-end reconciliation tests (3 tests)
+- `test_validation_and_error_handling.py` - Enhanced validation and error handling tests (6 tests)
 - `data/` - Test data files
   - `test_source.json` - Test source data
   - `test_target.json` - Test target data
@@ -45,5 +47,5 @@
 - Development dependencies in `[project.optional-dependencies.dev]`
 - No separate `requirements.txt` file needed
 
-### Total Test Count: 16 tests across 6 test files
-### Framework Status: Production Ready ✅
+### Total Test Count: 24 tests across 7 test files
+### Framework Status: Production Ready ✅ (v1.1.0 with Enterprise Features)

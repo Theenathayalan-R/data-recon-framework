@@ -1,14 +1,15 @@
-from typing import Optional, Dict, Any, Union
+from typing import Dict, List, Optional, Any
 from pyspark.sql import SparkSession, DataFrame
 from abc import ABC, abstractmethod
 import os
 import json
+from .constants import CONNECTION_TYPE_JSON, CONNECTION_TYPE_STARBURST
 
 try:
-    from pystarburst import StarburstConnection
+    import pystarburst  # type: ignore
     STARBURST_AVAILABLE = True
-except ImportError:
-    StarburstConnection = Any  # type: ignore
+except Exception:
+    pystarburst = None  # type: ignore
     STARBURST_AVAILABLE = False
 
 class ConnectionManager(ABC):
@@ -31,15 +32,24 @@ class JSONConnectionManager(ConnectionManager):
     """Manages connections to JSON files for local testing."""
 
     def load_dataset(self, path: str, multiline: bool = True, **kwargs) -> DataFrame:
-        """Load dataset from JSON file.
+        """Load dataset from JSON file with enhanced error handling.
         
         Args:
             path: Path to the JSON file
             multiline: Whether the JSON file contains one record per line (False) 
                       or the entire file is a JSON array (True)
+                      
+        Raises:
+            FileNotFoundError: If the JSON file doesn't exist
+            Exception: If JSON parsing fails
         """
-        return self.spark.read.option("multiline", str(multiline).lower()) \
-                   .json(path)
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"JSON file not found: {path}")
+            
+        try:
+            return self.spark.read.option("multiline", str(multiline).lower()).json(path)
+        except Exception as e:
+            raise Exception(f"Failed to load JSON file {path}: {str(e)}")
 
     def write_dataset(self, df: DataFrame, path: str, mode: str = "overwrite"):
         """Write dataset to JSON file."""
@@ -50,56 +60,51 @@ class StarburstConnectionManager(ConnectionManager):
 
     def __init__(self, spark: SparkSession, config_path: Optional[str] = None):
         super().__init__(spark)
+        # Default to top-level config/starburst_config.json
         self.config_path = config_path or os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
             'config',
             'starburst_config.json'
         )
         self.connection_config = self._load_config()
-        self.connection = None if not STARBURST_AVAILABLE else None
 
     def _load_config(self) -> Dict[str, Any]:
-        """Load Starburst connection configuration from JSON file."""
+        """Load Starburst connection configuration from JSON file, fallback to env.
+        Avoid writing credentials to disk by default.
+        """
+        config: Dict[str, Any] = {}
         try:
-            with open(self.config_path, 'r') as f:
-                config = json.load(f)
-                
-            # Validate required fields
-            required_fields = ['host', 'port', 'user', 'password']
-            missing_fields = [field for field in required_fields if field not in config]
-            if missing_fields:
-                raise ValueError(f"Missing required fields in config: {missing_fields}")
-                
-            # Ensure port is integer
-            config['port'] = int(config['port'])
-            
-            return config
-        except FileNotFoundError:
-            # Create default config if file doesn't exist
-            default_config = {
-                'host': os.getenv('STARBURST_HOST', 'localhost'),
-                'port': int(os.getenv('STARBURST_PORT', '8080')),
-                'user': os.getenv('STARBURST_USER', 'test'),
-                'password': os.getenv('STARBURST_PASSWORD', 'test')
-            }
-            os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
-            with open(self.config_path, 'w') as f:
-                json.dump(default_config, f, indent=4)
-            return default_config
+            if os.path.exists(self.config_path):
+                with open(self.config_path, 'r') as f:
+                    config = json.load(f)
+        except Exception:
+            config = {}
 
-    def connect(self):
-        """Establish connection to Starburst."""
-        if not STARBURST_AVAILABLE:
-            raise NotImplementedError("Starburst connection not available.")
-        
-        if self.connection is None:
-            self.connection = StarburstConnection(**self.connection_config)
+        # Env fallbacks
+        config.setdefault('host', os.getenv('STARBURST_HOST'))
+        port_str = os.getenv('STARBURST_PORT')
+        if 'port' not in config or config.get('port') is None:
+            config['port'] = int(port_str) if port_str else None
+        config.setdefault('user', os.getenv('STARBURST_USER'))
+        config.setdefault('password', os.getenv('STARBURST_PASSWORD'))
+
+        # Validate required fields
+        required_fields = ['host', 'port', 'user', 'password']
+        missing = [k for k in required_fields if not config.get(k)]
+        if missing:
+            raise ValueError(
+                f"Missing Starburst config fields: {missing}. "
+                f"Supply via {self.config_path} or environment variables "
+                f"(STARBURST_HOST, STARBURST_PORT, STARBURST_USER, STARBURST_PASSWORD)."
+            )
+
+        return config
 
     def load_dataset(self, catalog: str, database: str, table: str, 
                     filter_condition: Optional[str] = None) -> DataFrame:
         """Load dataset from Starburst catalog."""
         if not STARBURST_AVAILABLE:
-            raise NotImplementedError("Starburst connection not available.")
+            raise NotImplementedError("Starburst connection not available. Install with extras: pip install recon_framework[starburst]")
         
         query = f"SELECT * FROM {catalog}.{database}.{table}"
         if filter_condition:
@@ -110,9 +115,6 @@ class StarburstConnectionManager(ConnectionManager):
     def write_dataset(self, df: DataFrame, table: str, mode: str = "append"):
         """Write dataset to Starburst."""
         if not STARBURST_AVAILABLE:
-            raise NotImplementedError("Starburst connection not available.")
+            raise NotImplementedError("Starburst connection not available. Install with extras: pip install recon_framework[starburst]")
         
-        df.write.format("starburst") \
-            .option("table", table) \
-            .mode(mode) \
-            .save()
+        df.write.format("starburst").option("table", table).mode(mode).save()

@@ -6,10 +6,12 @@ from reconciliation.framework import ReconciliationFramework
 @pytest.fixture
 def spark():
     """Create a SparkSession for testing."""
-    return (SparkSession.builder
+    spark = (SparkSession.builder
             .appName("Framework Tests")
             .master("local[*]")
             .getOrCreate())
+    yield spark
+    spark.stop()
 
 @pytest.fixture
 def test_config_dir(tmp_path):
@@ -66,6 +68,8 @@ def test_framework_reconciliation(test_config_dir):
     assert report.overall_status in ["PASSED", "FAILED"]
     assert report.record_count_comparison is not None
     assert len(report.field_comparisons) > 0
+    assert report.unmatched_source_count >= 0
+    assert report.unmatched_target_count >= 0
 
 def test_framework_results_writing(test_config_dir, tmp_path):
     """Test writing reconciliation results."""

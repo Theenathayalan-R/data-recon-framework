@@ -14,7 +14,7 @@ columns:
   exclude:
     - updated_timestamp
     - etl_batch_id
-  
+
   # Specific field mappings
   mappings:
     - source_field: id
@@ -37,6 +37,18 @@ columns:
       target_field: status
       comparison_type: exact
       tolerance: 0
+    # Example datetime comparison for event/update timestamps
+    # Note: The sample data uses ISO-8601 with 'Z'; formats/timezones are optional here
+    - source_field: updated_timestamp
+      target_field: updated_timestamp
+      comparison_type: datetime
+      tolerance: 5
+      datetime_tolerance_unit: minutes
+      # Optional: specify formats/timezones if your inputs are naive or custom-formatted
+      # source_format: "yyyy-MM-dd'T'HH:mm:ssXXX"
+      # target_format: "yyyy-MM-dd'T'HH:mm:ssXXX"
+      # source_timezone: "UTC"
+      # target_timezone: "UTC"
 
 # Reconciliation Settings
 settings:

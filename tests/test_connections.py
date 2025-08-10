@@ -8,10 +8,12 @@ from reconciliation.connections import JSONConnectionManager, StarburstConnectio
 @pytest.fixture
 def spark():
     """Create a SparkSession for testing."""
-    return (SparkSession.builder
+    spark = (SparkSession.builder
             .appName("Reconciliation Tests")
             .master("local[*]")
             .getOrCreate())
+    yield spark
+    spark.stop()
 
 @pytest.fixture
 def test_data_path():

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "recon_framework"
-version = "1.0.0"
+version = "1.1.0"
 description = "A robust data reconciliation framework built with PySpark"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -26,22 +26,24 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "pyspark>=4.0.0",
-    "pydeequ>=1.5.0",
-    "pystarburst>=0.10.0",
-    "pandas>=2.0.0",
-    "pytest>=8.0.0",
-    "pytest-spark>=0.8.0",
+    "pyspark>=3.3.0",
     "PyYAML>=6.0.2",
-    "python-dotenv>=1.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
+    "pytest>=8.0.0",
+    "pytest-spark>=0.8.0",
     "pytest-cov>=4.0.0",
     "black>=23.0.0",
     "flake8>=6.0.0",
     "mypy>=1.0.0",
+]
+starburst = [
+    "pystarburst>=0.10.0"
+]
+quality = [
+    "pydeequ>=1.5.0"
 ]
 
 [project.scripts]
@@ -79,13 +81,13 @@ exclude_lines = [
     "raise AssertionError",
     "raise NotImplementedError",
     "if 0:",
-    "if __name__ == .__main__.:",
+    "if __name__ == '__main__':",
 ]
 
 [tool.black]
 line-length = 100
 target-version = ['py38']
-include = '\.pyi?$'
+include = '\\.pyi?$'
 
 [tool.mypy]
 python_version = "3.8"

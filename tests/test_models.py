@@ -59,9 +59,12 @@ def test_reconciliation_report():
         overall_status="FAILED",
         timestamp=datetime.now(timezone.utc).isoformat(),
         source_details={"path": "data/source.json"},
-        target_details={"path": "data/target.json"}
+        target_details={"path": "data/target.json"},
+        unmatched_source_count=2,
+        unmatched_target_count=0
     )
     
     assert report.overall_status == "FAILED"
     assert len(report.field_comparisons) == 1
     assert report.record_count_comparison.match_percentage == 0.98
+    assert report.unmatched_source_count == 2
