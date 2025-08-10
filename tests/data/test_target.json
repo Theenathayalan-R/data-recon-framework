@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "Test A",
+        "value": 100.0,
+        "updated_timestamp": "2025-08-01T10:30:00Z",
+        "etl_batch_id": "batch_002"
+    },
+    {
+        "id": 2,
+        "name": "Test B",
+        "value": 200.1,
+        "updated_timestamp": "2025-08-01T10:35:00Z",
+        "etl_batch_id": "batch_002"
+    }
+]

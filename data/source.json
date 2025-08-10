@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "customer_name": "John Doe",
+        "amount": 1000.00,
+        "transaction_date": "2025-08-01",
+        "status": "completed",
+        "updated_timestamp": "2025-08-01T10:00:00Z",
+        "etl_batch_id": "batch_001"
+    },
+    {
+        "id": 2,
+        "customer_name": "Jane Smith",
+        "amount": 1500.50,
+        "transaction_date": "2025-08-01",
+        "status": "completed",
+        "updated_timestamp": "2025-08-01T10:05:00Z",
+        "etl_batch_id": "batch_001"
+    },
+    {
+        "id": 3,
+        "customer_name": "Bob Johnson",
+        "amount": 750.25,
+        "transaction_date": "2025-08-01",
+        "status": "pending",
+        "updated_timestamp": "2025-08-01T10:10:00Z",
+        "etl_batch_id": "batch_001"
+    }
+]

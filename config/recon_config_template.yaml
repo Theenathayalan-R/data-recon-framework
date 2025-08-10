@@ -1,0 +1,40 @@
+# Source Dataset Configuration
+source:
+  catalog_name: test_catalog
+  database_name: test_db
+  table_name: source_table
+  filter_condition: null  # Optional filter condition
+
+# Target Dataset Configuration
+target:
+  catalog_name: test_catalog
+  database_name: test_db
+  table_name: target_table
+  filter_condition: null  # Optional filter condition
+
+# Column Configuration
+columns:
+  # Columns to exclude from comparison (optional)
+  exclude:
+    - updated_timestamp
+    - etl_batch_id
+  
+  # Specific field mappings (optional)
+  # If not specified, all columns except excluded ones will be compared by name
+  mappings:
+    - source_field: id
+      target_field: id
+      comparison_type: exact
+      tolerance: 0
+    - source_field: amount
+      target_field: value  # Example of different column names
+      comparison_type: numeric
+      tolerance: 0.01
+
+# Reconciliation Settings
+settings:
+  record_count_threshold: 0.99
+  field_match_threshold: 0.95
+  batch_size: 100000
+  key_fields:  # Fields to use for joining datasets
+    - id

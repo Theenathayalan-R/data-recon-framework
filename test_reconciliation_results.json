@@ -1,0 +1,165 @@
+{
+  "timestamp": "2025-08-10T09:10:22.684401+00:00",
+  "overall_status": "FAILED",
+  "source_details": {
+    "path": "data/source.json",
+    "multiline": true
+  },
+  "target_details": {
+    "path": "data/target.json",
+    "multiline": true
+  },
+  "record_count_comparison": {
+    "source_count": 3,
+    "target_count": 3,
+    "match_percentage": 1.0,
+    "threshold_met": true
+  },
+  "field_comparisons": {
+    "id vs id": [
+      {
+        "source_field": "id",
+        "target_field": "id",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      },
+      {
+        "source_field": "id",
+        "target_field": "id",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      },
+      {
+        "source_field": "id",
+        "target_field": "id",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      }
+    ],
+    "customer_name vs customer_name": [
+      {
+        "source_field": "customer_name",
+        "target_field": "customer_name",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      },
+      {
+        "source_field": "customer_name",
+        "target_field": "customer_name",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      },
+      {
+        "source_field": "customer_name",
+        "target_field": "customer_name",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      }
+    ],
+    "amount vs value": [
+      {
+        "source_field": "amount",
+        "target_field": "value",
+        "status": "Success",
+        "message": "Difference: 0.0",
+        "metric_value": 0.0,
+        "comparison_type": "numeric",
+        "tolerance": 0.01
+      },
+      {
+        "source_field": "amount",
+        "target_field": "value",
+        "status": "Success",
+        "message": "Difference: 0.009999999999990905",
+        "metric_value": 0.009999999999990905,
+        "comparison_type": "numeric",
+        "tolerance": 0.01
+      },
+      {
+        "source_field": "amount",
+        "target_field": "value",
+        "status": "Success",
+        "message": "Difference: 0.0",
+        "metric_value": 0.0,
+        "comparison_type": "numeric",
+        "tolerance": 0.01
+      }
+    ],
+    "transaction_date vs transaction_date": [
+      {
+        "source_field": "transaction_date",
+        "target_field": "transaction_date",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      },
+      {
+        "source_field": "transaction_date",
+        "target_field": "transaction_date",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      },
+      {
+        "source_field": "transaction_date",
+        "target_field": "transaction_date",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      }
+    ],
+    "status vs status": [
+      {
+        "source_field": "status",
+        "target_field": "status",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      },
+      {
+        "source_field": "status",
+        "target_field": "status",
+        "status": "Success",
+        "message": "Exact match",
+        "metric_value": 0,
+        "comparison_type": "exact",
+        "tolerance": 0
+      },
+      {
+        "source_field": "status",
+        "target_field": "status",
+        "status": "Error",
+        "message": "Values differ",
+        "metric_value": 1,
+        "comparison_type": "exact",
+        "tolerance": 0
+      }
+    ]
+  }
+}

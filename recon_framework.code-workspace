@@ -1,0 +1,60 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/__pycache__": true,
+            "**/*.pyc": true,
+            "**/*.pyo": true,
+            "**/*.egg-info": true,
+            "**/.pytest_cache": true,
+            "**/build": true,
+            "**/dist": true,
+            "**/.DS_Store": true,
+            "**/requirements.txt": true,
+            "**/test_*.py": {
+                "when": "$(basename) != test_*.py || $(dirname) != tests"
+            }
+        },
+        "files.watcherExclude": {
+            "**/__pycache__/**": true,
+            "**/*.pyc": true,
+            "**/.pytest_cache/**": true,
+            "**/.venv/**": true
+        },
+        "search.exclude": {
+            "**/__pycache__": true,
+            "**/*.pyc": true,
+            "**/.pytest_cache": true,
+            "**/.venv": true,
+            "**/build": true,
+            "**/dist": true
+        },
+        "python.defaultInterpreterPath": ".venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": [
+            "tests"
+        ],
+        "python.testing.unittestEnabled": false,
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-python.python",
+            "ms-python.black-formatter",
+            "ms-python.flake8",
+            "ms-toolsai.jupyter"
+        ]
+    }
+}

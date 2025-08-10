@@ -1,0 +1,9 @@
+{
+    "host": "localhost",
+    "port": 8080,
+    "user": "test",
+    "password": "test",
+    "catalog": "default",
+    "schema": "public",
+    "ssl_verify": false
+}

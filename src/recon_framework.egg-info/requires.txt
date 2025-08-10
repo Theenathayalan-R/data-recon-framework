@@ -1,0 +1,14 @@
+pyspark>=4.0.0
+pydeequ>=1.5.0
+pystarburst>=0.10.0
+pandas>=2.0.0
+pytest>=8.0.0
+pytest-spark>=0.8.0
+PyYAML>=6.0.2
+python-dotenv>=1.0.0
+
+[dev]
+pytest-cov>=4.0.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.0.0
